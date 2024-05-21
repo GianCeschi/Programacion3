@@ -116,7 +116,8 @@ public class Arbol {
 				//CREO LAS LISTAS ACA PORQUE NO LAS PUEDO CREAR DENTRO DE LOS BLOQUES IF PORQUE NO LAS VA A CONOCER DE AFUERA
 				if(nodo.getDer() != null){
 					resParcialDer = getLongestBranch(nodo.getDer());	   
-				} else {
+				} 
+				if(nodo.getIzq() != null){  //Este es un if y no un else, porque tiene que calcular la rama del nodo izquierdo tambien
 					resParcialIzq = getLongestBranch(nodo.getIzq());
 				}	
 				if (resParcialDer.size() > resParcialIzq.size()) {
@@ -182,8 +183,8 @@ public class Arbol {
 				if(nodo.getDer()!=null) {
 					resultadoParcialDerecha = getFrontera(nodo.getDer());
 				}
-				resultado.addAll(resultadoParcialIzquierda); //PORQUE SI YO COMENTO ESTO NO ME DA EL 7 Y ME DA SOLO EL 12, SI TENDRIA QUE DAR TODOS DER
-				resultado.addAll(resultadoParcialDerecha); //7 NO SERIA UN NODO DERECHO DE LA RAIZ 
+				resultado.addAll(resultadoParcialIzquierda); 
+				resultado.addAll(resultadoParcialDerecha); 
 			}
 			return resultado;
 		}
@@ -201,12 +202,7 @@ public class Arbol {
 			if(nodo.getIzq()== null && nodo.getDer()== null) {
 				if(valor == nodo.getValor()) {
 					if(nodo.getAnterior()==null) { //La hoja es una raiz, si no tengo en cuenta null--->null y explota todo
-						this.raiz = null; //LA RAIZ SE VUELVE NULA!! NO el nodo, el nodo es otro objeto que apunta a null, la raiz apunta a null
-						
-						
-						
-						
-						
+						this.raiz = null; //LA RAIZ SE VUELVE NULA!! NO el nodo, el nodo es otro objeto que apunta a null, la raiz apunta a null		
 					}
 					else {
 						if( nodo.getAnterior().getValor()>valor) {  //Tengo que ver de que lado esta la hoja.

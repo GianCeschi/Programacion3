@@ -56,17 +56,13 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	
 	@Override												
 	public void borrarArco(int verticeId1, int verticeId2) {
-		if(contieneVertice(verticeId1)) {
-			Iterator<Arco<T>> itArcos = obtenerArcos();
-			while(itArcos.hasNext()) {
-				Arco<T> arco = itArcos.next();
-				if(arco.getVerticeDestino() == verticeId2) {
-					vertices.get(verticeId1).remove(arco); 
-				}
+		if(contieneVertice(verticeId1)) {	    
+			Arco<T> arco = obtenerArco(verticeId1, verticeId2);
+			if(arco != null) { //Si hay arco lo borra
+				vertices.get(verticeId1).remove(arco); 
 			}
 		}
 	}
-
 	
 	@Override
 	public boolean contieneVertice(int verticeId) {
@@ -128,7 +124,7 @@ public class GrafoDirigido<T> implements Grafo<T> {
 	
 	@Override
 	public Iterator<Integer> obtenerAdyacentes(int verticeId) {  //EN ESTE HAY UNA MEJOR FORMA DE HACER UN ITERADOR PROPIO
-		LinkedList<Arco<T>>arcos = vertices.get(verticeId);
+		LinkedList<Arco<T>>arcos = vertices.get(verticeId); //LISTA DE ARCOS DADA UNA CLAVE
 		
 		LinkedList<Integer> adyacentes = new LinkedList<Integer>();
 		for(Arco<T>arco : arcos) {   //O(n) donde n es la cantidad de arcos salientes
