@@ -21,6 +21,16 @@ public class Procesador {
         this.tareasAsignadas = new LinkedList<Tarea>();
     }
 
+    // Constructor recibiendo un objeto procesador
+    public Procesador(Procesador procesador) {
+        this.id = procesador.id;
+        this.codigo = procesador.codigo;
+        this.refrigerado = procesador.refrigerado;
+        this.anio = procesador.anio;
+        this.tiempoEjecucion = procesador.tiempoEjecucion;
+        this.tareasAsignadas = new LinkedList<>(procesador.tareasAsignadas);
+    }
+    
     public Iterator<Tarea> iterarTareas(){
     	return tareasAsignadas.iterator();
     }

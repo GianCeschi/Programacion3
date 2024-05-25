@@ -35,8 +35,6 @@ public class AsignacionTareasBackTracking {
 
     public Estado asignarTareas() {
         backtracking(estadoInicial, tareasDisponibles);
-        //no puedo asignar al mismo procesador mas de dos tareas críticas.
-        //no puedo asignar a un procesador no refrigerado si el tiempo de ejecución de la tarea es mayor a tiempoMaxEjecucion
         mejorSolucion.setMetricaGenerada(metrica);
         return mejorSolucion; 
     }
@@ -45,7 +43,7 @@ public class AsignacionTareasBackTracking {
         if(tareasDisponibles.size()== 0){ //Es una solucion, ahora tengo que ir guardando la mejor solucion
             //operar solucion
         	if(this.mejorSolucion == null || estado.getTiempoFinalEjecucion()< this.mejorSolucion.getTiempoFinalEjecucion()) {
-        		this.mejorSolucion = new Estado(estado.getProcesadores(), estado.getTiempoFinalEjecucion()); //Creo otro constructor para pasarle tiempo
+        		this.mejorSolucion = new Estado(estado);
         	}
         }
         else{

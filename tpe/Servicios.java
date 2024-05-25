@@ -75,7 +75,7 @@ public class Servicios {
 		// LinkedList<Tarea> tareasDisponibles = new LinkedList<Tarea>(tareas.values());
 		AsignacionTareasBackTracking backTracking = new AsignacionTareasBackTracking(procesadores, tareas, tiempoMaxEjecucion);
 		Estado estado = backTracking.asignarTareas();
-		//System.out.println(estado);
+		System.out.println(estado);
 	}
 
 	/*public void servicio5(int tiempoMaxEjecucion){   //Servicio que se encarga de asignar las tareas a los procesadores usando greedy

@@ -1,6 +1,7 @@
 package tpe.utils;
 
 import java.util.Iterator;
+import java.util.Map.Entry;
 import java.util.HashMap;
 
 import tpe.Procesador;
@@ -16,11 +17,16 @@ public class Estado {
         this.tiempoFinalEjecucion = null;
         this.metricaGenerada = null;
     }
-    //Creo otro constructor para la mejor solucion
-    public Estado(HashMap<String, Procesador> procesadores, int tiempoFinal){
-        this.procesadores = procesadores;
-        this.tiempoFinalEjecucion = tiempoFinal;
+    
+    // Constructor para poder guardar la mejorSolucion
+    public Estado(Estado estado) {
+        this.procesadores = new HashMap<>();
+        for (Entry<String, Procesador> entry : estado.procesadores.entrySet()) {
+            this.procesadores.put(entry.getKey(), new Procesador(entry.getValue()));
+        }
+        this.tiempoFinalEjecucion = estado.tiempoFinalEjecucion;  //Con el tiempo final 
     }
+    
     
     public Integer getMetricaGenerada() {
 		return metricaGenerada;

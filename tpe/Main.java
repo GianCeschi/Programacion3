@@ -8,7 +8,7 @@ public class Main {
 		servicios.servicio1("T1");
 		servicios.servicio2(true);
 		servicios.servicio3(10, 100);
-		servicios.servicio4(1000);
+		servicios.servicio4(50);
 	
 	}
 }
