@@ -9,10 +9,12 @@ import tpe.Tarea;
 public class Estado {
     private HashMap<String, Procesador> procesadores;
     private Integer tiempoFinalEjecucion;
+    private Integer metricaGenerada;
     
     public Estado(HashMap<String, Procesador> procesadores){
         this.procesadores = procesadores;
         this.tiempoFinalEjecucion = null;
+        this.metricaGenerada = null;
     }
     //Creo otro constructor para la mejor solucion
     public Estado(HashMap<String, Procesador> procesadores, int tiempoFinal){
@@ -20,7 +22,13 @@ public class Estado {
         this.tiempoFinalEjecucion = tiempoFinal;
     }
     
-    //Agregamos este get para poder comparar con la mejor solucion! 
+    public Integer getMetricaGenerada() {
+		return metricaGenerada;
+	}
+	public void setMetricaGenerada(Integer metricaGenerada) {
+		this.metricaGenerada = metricaGenerada;
+	}
+	//Agregamos este get para poder comparar con la mejor solucion! 
     public Integer getTiempoFinalEjecucion() {
 		return tiempoFinalEjecucion;
 	}
@@ -46,7 +54,7 @@ public class Estado {
         }
     }
 
-    public void desasignarTarea(String idProcesador, int tiempoFinalAnterior){
+    public void desasignarTarea(String idProcesador, Integer tiempoFinalAnterior){
         procesadores.get(idProcesador).removeLastTarea();
         this.tiempoFinalEjecucion = tiempoFinalAnterior ;
     }
@@ -64,10 +72,32 @@ public class Estado {
         return tiempoFinalEstado;
     }*/
 
-    public boolean tieneDosCriticas(String procesador) { //Le paso la key del procesador para saber en cual busco
+    public boolean superaCantidadCriticas(String procesador) { //Le paso la key del procesador para saber en cual busco
     	int limite = 2; //Puede ser constante
     	Procesador p = procesadores.get(procesador);
-    	return p.cantidadTareasCriticas(limite);  //Obtengo la cantidad de criticas por si en un futuro el limite es otro valor
+    	return p.superaCantidadCriticas(limite);  
     }
-
+    
+    public boolean esRefrigerado(String procesador) {
+    	Procesador p = procesadores.get(procesador);
+    	return p.isRefrigerado();
+    }
+    
+    public String toString() {
+    	String res =  "Estado: \nTiempo final ejecución: " + tiempoFinalEjecucion + "\nMetrica: " + metricaGenerada + 
+    				  "\nDetalle tareas asignadas: \n";
+    	Iterator<String> itProcesadores = iterarProcesadores();
+    	while(itProcesadores.hasNext()) {
+    		String idProcesador = itProcesadores.next();
+    		Procesador p = procesadores.get(idProcesador);
+    		res += "Procesador " + p.getId() + "[" ;
+    		Iterator<Tarea> itTareas = p.iterarTareas();
+    		while(itTareas.hasNext()) {
+    			Tarea t = itTareas.next();
+    			res += t.getNombre() + ", ";
+    		}
+    		res += "]\n";
+    	}	
+    	 return res;
+    }
 }

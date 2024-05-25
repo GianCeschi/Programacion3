@@ -11,6 +11,7 @@ public class AsignacionTareasBackTracking {
     Estado mejorSolucion;
     Estado estadoInicial;
     LinkedList<Tarea> tareasDisponibles;
+    Integer metrica;
     
 
     public AsignacionTareasBackTracking(HashMap<String, Procesador> procesadores, HashMap<String, Tarea>tareas, Integer tiempoMaxEjecucion) {
@@ -18,6 +19,7 @@ public class AsignacionTareasBackTracking {
         this.tiempoX = tiempoMaxEjecucion;
         this.mejorSolucion = null;
         this.estadoInicial = new Estado(procesadores);
+        this.metrica = 0;
     }
     
     //Tengo que sacar la tarea de la lista de tareas disponiobles
@@ -31,11 +33,12 @@ public class AsignacionTareasBackTracking {
     	tareasDisponibles.addFirst(t);
     }
 
-    public void asignarTareas() {
+    public Estado asignarTareas() {
         backtracking(estadoInicial, tareasDisponibles);
         //no puedo asignar al mismo procesador mas de dos tareas críticas.
         //no puedo asignar a un procesador no refrigerado si el tiempo de ejecución de la tarea es mayor a tiempoMaxEjecucion
-        //return mejorSolucion; DEBERIA DEVOLVER LA MEJOR SOLUCION
+        mejorSolucion.setMetricaGenerada(metrica);
+        return mejorSolucion; 
     }
 
     private void backtracking(Estado estado, LinkedList<Tarea> tareasDisponibles) {
@@ -49,12 +52,15 @@ public class AsignacionTareasBackTracking {
             Iterator<String> itProcesadores = estado.iterarProcesadores();  
             while(itProcesadores.hasNext()) {
             	String procesador = itProcesadores.next(); //Me da el String de procesador para luego poder pasarlo al estado y asignarle la tarea
-            	Tarea t = obtenerTarea(); //Metodo de esta clase porque necesito las tareas disponibles
-            	int tiempoFinalAnterior = estado.getTiempoFinalEjecucion(); //Guardamos el tiempo anterior
+            	Tarea t = obtenerTarea(); //Metodo de esta clase porque necesito las tareas disponibles            		
+            	Integer tiempoFinalAnterior = estado.getTiempoFinalEjecucion(); //Guardamos el tiempo anterior
 				estado.asignarTarea(procesador,t); //Se actualizo el estado
 				//Aca debo hacer la poda, ya se realizo una
-				if(!estado.tieneDosCriticas(procesador) && estado.getTiempoFinalEjecucion()< this.mejorSolucion.getTiempoFinalEjecucion()) { // tambien tenemos que chequear si ese es una solucion peor para no seguir con el backtracking
+				if(!estado.superaCantidadCriticas(procesador) && (this.mejorSolucion == null ||
+				   (estado.getTiempoFinalEjecucion()< this.mejorSolucion.getTiempoFinalEjecucion()))
+					&& ((!estado.esRefrigerado(procesador) && t.getTiempo()< tiempoX) || estado.esRefrigerado(procesador))) { // tambien tenemos que chequear si ese es una solucion peor para no seguir con el backtracking
 					backtracking(estado, tareasDisponibles); //Tengo que actualizar el estado para pasarle el nuevo estado, no el procesador
+					this.metrica++;
 				}
 				devolverTarea(t);
 				estado.desasignarTarea(procesador,tiempoFinalAnterior);

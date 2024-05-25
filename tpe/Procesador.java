@@ -1,5 +1,6 @@
 package tpe;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 
 public class Procesador {
@@ -20,6 +21,13 @@ public class Procesador {
         this.tareasAsignadas = new LinkedList<Tarea>();
     }
 
+    public Iterator<Tarea> iterarTareas(){
+    	return tareasAsignadas.iterator();
+    }
+    public LinkedList<Tarea>getTareas(){
+    	return new LinkedList<Tarea>(tareasAsignadas);
+    }
+    
     public String getId() {
         return id;
     }
@@ -53,13 +61,13 @@ public class Procesador {
     }
    
     //Agrego este metodo para poder hacer la primer condicion de poda, hago este metodo por si en un futuro cambia el limite de cantidad de criticas
-    public boolean cantidadTareasCriticas(int cantidadCriticas) {
+    public boolean superaCantidadCriticas(int cantidadCriticas) {
     	int cant = 0;
     	for(int i = 0; i<tareasAsignadas.size();i++) {
     		Tarea t = tareasAsignadas.get(i);
     		if(t.isCritica()) {
     			cant++;
-    			if(cant>=cantidadCriticas) {
+    			if(cant>cantidadCriticas) {
     				return true;
     			}
     		}
