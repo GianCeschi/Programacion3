@@ -35,7 +35,7 @@ public class SumaSubconjuntos {
 
             //evalúo agregando elemento
             estado.getSolucion().add(1);
-            if (estado.getSuma() <= this.m){
+            if (estado.getSuma() <= this.m){   // estrategia de poda
                 backtracking(estado, hijos);
             }
             hijos--;
