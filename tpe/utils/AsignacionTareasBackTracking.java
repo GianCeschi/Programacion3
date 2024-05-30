@@ -9,8 +9,8 @@ import tpe.Tarea;
 public class AsignacionTareasBackTracking {
     Integer tiempoX;
     Estado mejorSolucion;
-    Estado estadoInicial;
     LinkedList<Tarea> tareasDisponibles;
+    HashMap<String, Procesador> procesadores;
     Integer metrica;
     
 
@@ -18,7 +18,7 @@ public class AsignacionTareasBackTracking {
         this.tareasDisponibles = new LinkedList<Tarea>(tareas.values());
         this.tiempoX = tiempoMaxEjecucion;
         this.mejorSolucion = null;
-        this.estadoInicial = new Estado(procesadores);
+        this.procesadores = procesadores;
         this.metrica = 0;
     }
     
@@ -34,6 +34,7 @@ public class AsignacionTareasBackTracking {
     }
 
     public Estado asignarTareas() {
+        Estado estadoInicial = new Estado(procesadores);
         backtracking(estadoInicial, tareasDisponibles);
         mejorSolucion.setMetricaGenerada(metrica);
         return mejorSolucion; 

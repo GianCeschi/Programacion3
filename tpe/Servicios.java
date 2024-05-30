@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Iterator;
 
 import tpe.utils.AsignacionTareasBackTracking;
+import tpe.utils.AsignacionTareasGreedy;
 import tpe.utils.CSVReader;
 import tpe.utils.Estado;
 
@@ -72,14 +73,16 @@ public class Servicios {
 
 	public void servicio4(int tiempoMaxEjecucion){   //Servicio que se encarga de asignar las tareas a los procesadores usando backtracking
 		// Implementar
-		// LinkedList<Tarea> tareasDisponibles = new LinkedList<Tarea>(tareas.values());
 		AsignacionTareasBackTracking backTracking = new AsignacionTareasBackTracking(procesadores, tareas, tiempoMaxEjecucion);
 		Estado estado = backTracking.asignarTareas();
+		
 		System.out.println(estado);
 	}
 
-	/*public void servicio5(int tiempoMaxEjecucion){   //Servicio que se encarga de asignar las tareas a los procesadores usando greedy
+	public void servicio5(int tiempoMaxEjecucion){   //Servicio que se encarga de asignar las tareas a los procesadores usando greedy
 		// Implementar
-		AsignacionTareasGreedy.asignarTareas(tareas, procesadores);
-	}*/
+		AsignacionTareasGreedy greedy = new AsignacionTareasGreedy(procesadores, tareas, tiempoMaxEjecucion);
+		Estado solucion = greedy.asignarTareas();
+		System.out.println(solucion);
+	}
 }
