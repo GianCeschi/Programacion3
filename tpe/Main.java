@@ -3,7 +3,7 @@ package tpe;
 public class Main {
 
 	public static void main(String args[]) {
-		Servicios servicios = new Servicios("./Programacion3/tpe/datasets/Procesadores.csv", "./Programacion3/tpe/datasets/Tareas.csv");
+		Servicios servicios = new Servicios("./src/tpe/datasets/Procesadores.csv", "./src/tpe/datasets/Tareas.csv");
 
 		// servicios.servicio1("T1");
 		// servicios.servicio2(true);
