@@ -3,7 +3,6 @@ package tpe;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-
 import java.util.Iterator;
 
 import tpe.utils.AsignacionTareasBackTracking;
@@ -73,16 +72,31 @@ public class Servicios {
 
 	public void servicio4(int tiempoMaxEjecucion){   //Servicio que se encarga de asignar las tareas a los procesadores usando backtracking
 		// Implementar
-		AsignacionTareasBackTracking backTracking = new AsignacionTareasBackTracking(procesadores, tareas, tiempoMaxEjecucion);
-		Estado estado = backTracking.asignarTareas();
-		
-		System.out.println(estado);
+		if(servicio2(true).size() > procesadores.size()) { //Si la cantidad de tareas criticas es mayor a la cantidad de procesadores, no se puede asignar
+			System.out.println("No se puede asignar las tareas a los procesadores");
+		}
+		else {
+			AsignacionTareasBackTracking backTracking = new AsignacionTareasBackTracking(procesadores, tareas, tiempoMaxEjecucion);
+			Estado solucion = backTracking.asignarTareas();	
+			if(solucion == null)	//si viene null, hay alguna tarea que no se pudo asignar a ningún procesador (por ejemplo, todos procesadores no refrigerados y tarea con tiempoEj > tiempo dado por el usuario)
+				System.out.println("No se puede asignar las tareas a los procesadores");
+			else
+			System.out.println(solucion);
+		}
 	}
 
 	public void servicio5(int tiempoMaxEjecucion){   //Servicio que se encarga de asignar las tareas a los procesadores usando greedy
 		// Implementar
-		AsignacionTareasGreedy greedy = new AsignacionTareasGreedy(procesadores, tareas, tiempoMaxEjecucion);
-		Estado solucion = greedy.asignarTareas();
-		System.out.println(solucion);
+		if(servicio2(true).size() > procesadores.size()) { //Si la cantidad de tareas criticas es mayor a la cantidad de procesadores, no se puede asignar
+			System.out.println("No se puede asignar las tareas a los procesadores");
+		}
+		else {
+			AsignacionTareasGreedy greedy = new AsignacionTareasGreedy(procesadores, tareas, tiempoMaxEjecucion);
+			Estado solucion = greedy.asignarTareas();
+			if(solucion == null)															//si viene null, hay alguna tarea que no se pudo asignar a ningún procesador (por ejemplo, todos procesadores no refrigerados y tarea con tiempoEj > tiempo dado por el usuario)
+				System.out.println("No se puede asignar las tareas a los procesadores");
+			else
+			System.out.println(solucion);
+		}
 	}
 }
