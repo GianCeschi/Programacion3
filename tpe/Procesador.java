@@ -8,8 +8,8 @@ public class Procesador {
     private String codigo;
     private boolean refrigerado;
     private Integer anio;
-    Integer tiempoEjecucion;
-    LinkedList<Tarea> tareasAsignadas;
+    private Integer tiempoEjecucion;
+    private LinkedList<Tarea> tareasAsignadas;
 
 
     public Procesador(String id, String codigo, boolean refrigerado, Integer anio) {
@@ -21,7 +21,7 @@ public class Procesador {
         this.tareasAsignadas = new LinkedList<Tarea>();
     }
 
-    // Constructor recibiendo un objeto procesador
+    
     public Procesador(Procesador procesador) {
         this.id = procesador.id;
         this.codigo = procesador.codigo;
@@ -70,7 +70,6 @@ public class Procesador {
         this.anio = anio;
     }
    
-    //Agrego este metodo para poder hacer la primer condicion de poda, hago este metodo por si en un futuro cambia el limite de cantidad de criticas
     public boolean superaCantidadCriticas(int cantidadCriticas) {
     	int cant = 0;
     	for(int i = 0; i<tareasAsignadas.size();i++) {
@@ -94,14 +93,9 @@ public class Procesador {
         return tiempoEjecucion;
     }
 
-    // public Tarea removeLastTarea(){
-    //     Tarea eliminada = tareasAsignadas.removeLast();
-    //     tiempoEjecucion -= eliminada.getTiempo();
-    //     return eliminada;
-    // }
 
     public void removeLastTarea(){
-        Tarea eliminada = tareasAsignadas.removeLast(); //Porque se insertan a lo ultimo removemos la ultima
+        Tarea eliminada = tareasAsignadas.removeLast(); 
         tiempoEjecucion -= eliminada.getTiempo();
     }
 }

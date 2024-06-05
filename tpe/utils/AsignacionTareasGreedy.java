@@ -9,37 +9,44 @@ import tpe.Procesador;
 import tpe.Tarea;
 
 public class AsignacionTareasGreedy {
-    Integer tiempoX;
-    Estado solucion;
-    LinkedList<Tarea> tareasDisponibles;
-    HashMap<String, Procesador> procesadores;
-    Integer metrica;
+    private LinkedList<Tarea> tareasDisponibles;
+    private HashMap<String, Procesador> procesadores;
+    private Integer metrica;
+    private Integer tiempoX;
+    private Estado solucion;
+    private int limite;
 
-    public AsignacionTareasGreedy(HashMap<String, Procesador> procesadores, HashMap<String, Tarea> tareas, Integer tiempoX) {
+    public AsignacionTareasGreedy(HashMap<String, Procesador> procesadores, HashMap<String, Tarea> tareas, Integer tiempoX, int limite) {
         this.tareasDisponibles = new LinkedList<Tarea>(tareas.values());
-        Collections.sort(tareasDisponibles, Collections.reverseOrder());    // ordena las tareas de mayor a menor tiempo de ejecución
+        Collections.sort(tareasDisponibles, Collections.reverseOrder()); 
         this.tiempoX = tiempoX;
         this.solucion = null;
         this.procesadores = procesadores;
         this.metrica = 0;
     }
 
-    public Estado asignarTareas() {
+    public Estado greedy() {
         Estado estadoInicial = new Estado(procesadores);
         return greedy(estadoInicial, tareasDisponibles);
     }
     
+    /*Estrategia greedy:
+     *Se crea un estado inicial con todos los procesadores sin tareas asignadas.
+     *Se invoca a un metodo privado greedy pasandole por parametro el estado inicial y la lista de tareas disponibles para asignar
+     * ya ordenadas de mayor a menor comparando el tiempo de ejecucion de la misma.
+     *El criterio para la asignacion de una tarea es tomar la tarea mas grande y asignarla al procesador apto que menos tiempo de ejecucion tenga.
+     *En el caso que exista al menos una tarea que no se pueda asignar a ningun procesador, se corta la ejecucion y se retorna null.
+     * */
+    
     private Estado greedy(Estado estado, LinkedList<Tarea> tareasDisponibles){
-        
         while(!tareasDisponibles.isEmpty()){
             Tarea tarea = tareasDisponibles.removeFirst();
             Procesador procesador = obtenerMejorProcesador(estado, tarea); 
             if (procesador == null){
                 return null;
             }           
-            metrica++;
             estado.asignarTarea(procesador.getId(), tarea);
-        }                                                           //Si sale del while, es porque asignó todas las tareas. De lo contrario, corta con return null
+        }                                                 
         this.solucion = new Estado(estado);
         solucion.setMetricaGenerada(metrica);
         return solucion;
@@ -55,6 +62,7 @@ public class AsignacionTareasGreedy {
         Iterator<String> itProcesadores = estado.iterarProcesadores();
         while(itProcesadores.hasNext()){
             String idProcesador = itProcesadores.next();
+            metrica++; //La metrica se incrementa evaluando todos los procesadores y no lo saltos que hace de nivel
             Procesador procesadorActual = procesadores.get(idProcesador);
             if (procesadorPuedeRealizarTarea(estado, idProcesador, tarea)){
                 if (mejorProcesador == null || procesadorActual.getTiempoEjecucion() < mejorProcesador.getTiempoEjecucion()){
@@ -66,8 +74,8 @@ public class AsignacionTareasGreedy {
     }
 
     private boolean procesadorPuedeRealizarTarea(Estado estado, String idProcesador, Tarea tarea){
-        return !estado.superaCantidadCriticas(idProcesador) && 
+        return !estado.superaCantidadCriticas(idProcesador,limite) && 
                     (estado.esRefrigerado(idProcesador) || 
-                    (!estado.esRefrigerado(idProcesador) && tarea.getTiempo() <= tiempoX ));
+                    (!estado.esRefrigerado(idProcesador) && estado.getTiempoProcesador(idProcesador) <= tiempoX ));
     }
 }

@@ -18,13 +18,15 @@ public class Estado {
         this.metricaGenerada = null;
     }
     
-    // Constructor para poder guardar la mejorSolucion
+    //Constructor para poder guardar la mejor solucion y evitar que los cambios realizados en el estado que se pasa como parametro, modifique
+    //la mejor solución.
+    
     public Estado(Estado estado) {
         this.procesadores = new HashMap<>();
         for (Entry<String, Procesador> entry : estado.procesadores.entrySet()) {
             this.procesadores.put(entry.getKey(), new Procesador(entry.getValue()));
         }
-        this.tiempoFinalEjecucion = estado.tiempoFinalEjecucion;  //Con el tiempo final 
+        this.tiempoFinalEjecucion = estado.tiempoFinalEjecucion;  
     }
     
     
@@ -34,7 +36,7 @@ public class Estado {
 	public void setMetricaGenerada(Integer metricaGenerada) {
 		this.metricaGenerada = metricaGenerada;
 	}
-	//Agregamos este get para poder comparar con la mejor solucion! 
+	
     public Integer getTiempoFinalEjecucion() {
 		return tiempoFinalEjecucion;
 	}
@@ -43,7 +45,6 @@ public class Estado {
 		this.tiempoFinalEjecucion = tiempoFinalEjecucion;
 	}
 
-	//Hacemos el getProcesadores para poder retornarlo a la mejor solucion
 	public HashMap<String, Procesador> getProcesadores() {
 		return new HashMap<String, Procesador>(procesadores);
 	}
@@ -65,21 +66,7 @@ public class Estado {
         this.tiempoFinalEjecucion = tiempoFinalAnterior ;
     }
 
-   /* private Integer buscarTiempoFinal(){
-        int tiempoFinalEstado = 0; 
-        Iterator<String> itProcesadores = procesadores.keySet().iterator();
-        while (itProcesadores.hasNext()){
-            String idActual = itProcesadores.next();
-            int tiempoActual = procesadores.get(idActual).getTiempoEjecucion();
-            if(tiempoActual > tiempoFinalEstado){
-                tiempoFinalEstado = tiempoActual;
-            }
-        }
-        return tiempoFinalEstado;
-    }*/
-
-    public boolean superaCantidadCriticas(String procesador) { //Le paso la key del procesador para saber en cual busco
-    	int limite = 2; //Puede ser constante
+    public boolean superaCantidadCriticas(String procesador,int limite) { 
     	Procesador p = procesadores.get(procesador);
     	return p.superaCantidadCriticas(limite);  
     }
@@ -87,6 +74,11 @@ public class Estado {
     public boolean esRefrigerado(String procesador) {
     	Procesador p = procesadores.get(procesador);
     	return p.isRefrigerado();
+    }
+    
+    public int getTiempoProcesador(String procesador) {
+    	Procesador p = procesadores.get(procesador);
+    	return p.getTiempoEjecucion();
     }
     
     public String toString() {
