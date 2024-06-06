@@ -23,6 +23,7 @@ public class AsignacionTareasGreedy {
         this.solucion = null;
         this.procesadores = procesadores;
         this.metrica = 0;
+        this.limite = limite;
     }
 
     public Estado greedy() {
