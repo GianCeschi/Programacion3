@@ -26,7 +26,7 @@ public class Estado {
         for (Entry<String, Procesador> entry : estado.procesadores.entrySet()) {
             this.procesadores.put(entry.getKey(), new Procesador(entry.getValue()));
         }
-        this.tiempoFinalEjecucion = estado.tiempoFinalEjecucion;  
+        this.tiempoFinalEjecucion = estado.getTiempoFinalEjecucion();  
     }
     
     

@@ -48,6 +48,7 @@ public class AsignacionTareasGreedy {
             estado.asignarTarea(procesador.getId(), tarea);
         }                                                 
         this.solucion = new Solucion(estado);
+        this.solucion.setMetricaGenerada(estado.getMetricaGenerada());
         return solucion;
     }
 

@@ -19,15 +19,20 @@ public class Solucion {
 	            this.procesadores.put(entry.getKey(), new Procesador(entry.getValue()));
 	        }
 	        this.tiempoFinalEjecucion = estado.getTiempoFinalEjecucion(); 
-	    	
-	         this.metricaGenerada = estado.getMetricaGenerada();
+			this.metricaGenerada = null;
 	    }
 	    
 	    public Integer getTiempoFinalEjecucion() {
 	    	return tiempoFinalEjecucion;
 	    }
-	    
-	    public String toString() {
+		
+		
+		
+	    public void setMetricaGenerada(Integer metricaGenerada) {
+			this.metricaGenerada = metricaGenerada;
+		}
+
+		public String toString() {
 	    	String res =  "Estado: \nTiempo final ejecución: " + tiempoFinalEjecucion + "\nMetrica: " + metricaGenerada + 
 	    				  "\nDetalle tareas asignadas: \n";
 	    	Iterator<String> itProcesadores = procesadores.keySet().iterator();

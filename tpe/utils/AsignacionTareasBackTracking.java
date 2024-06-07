@@ -48,6 +48,7 @@ public class AsignacionTareasBackTracking {
         if (mejorSolucion == null) {
             return null;
         }
+        this.mejorSolucion.setMetricaGenerada(estadoInicial.getMetricaGenerada());
         return mejorSolucion; 
     }
 
@@ -68,8 +69,8 @@ public class AsignacionTareasBackTracking {
 				if(!estado.superaCantidadCriticas(procesador,limite) && 
                 (this.mejorSolucion == null || (estado.getTiempoFinalEjecucion()< this.mejorSolucion.getTiempoFinalEjecucion())) && 
                 ((!estado.esRefrigerado(procesador) && estado.getTiempoProcesador(procesador)<= tiempoX) || estado.esRefrigerado(procesador))) {
-					backtracking(estado, tareasDisponibles); 
 					estado.incrementarMetrica();
+					backtracking(estado, tareasDisponibles); 
 				}
 				devolverTarea(t);
 				estado.desasignarTarea(procesador,tiempoFinalAnterior);
