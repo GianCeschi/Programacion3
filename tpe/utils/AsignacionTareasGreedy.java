@@ -8,12 +8,12 @@ import java.util.LinkedList;
 import tpe.Procesador;
 import tpe.Tarea;
 
+
 public class AsignacionTareasGreedy {
     private LinkedList<Tarea> tareasDisponibles;
     private HashMap<String, Procesador> procesadores;
-    private Integer metrica;
     private Integer tiempoX;
-    private Estado solucion;
+    private Solucion solucion;
     private int limite;
 
     public AsignacionTareasGreedy(HashMap<String, Procesador> procesadores, HashMap<String, Tarea> tareas, Integer tiempoX, int limite) {
@@ -22,10 +22,10 @@ public class AsignacionTareasGreedy {
         this.tiempoX = tiempoX;
         this.solucion = null;
         this.procesadores = procesadores;
-        this.metrica = 0;
+        this.limite = limite;
     }
 
-    public Estado greedy() {
+    public Solucion greedy() {
         Estado estadoInicial = new Estado(procesadores);
         return greedy(estadoInicial, tareasDisponibles);
     }
@@ -38,7 +38,7 @@ public class AsignacionTareasGreedy {
      *En el caso que exista al menos una tarea que no se pueda asignar a ningun procesador, se corta la ejecucion y se retorna null.
      * */
     
-    private Estado greedy(Estado estado, LinkedList<Tarea> tareasDisponibles){
+    private Solucion greedy(Estado estado, LinkedList<Tarea> tareasDisponibles){
         while(!tareasDisponibles.isEmpty()){
             Tarea tarea = tareasDisponibles.removeFirst();
             Procesador procesador = obtenerMejorProcesador(estado, tarea); 
@@ -47,8 +47,7 @@ public class AsignacionTareasGreedy {
             }           
             estado.asignarTarea(procesador.getId(), tarea);
         }                                                 
-        this.solucion = new Estado(estado);
-        solucion.setMetricaGenerada(metrica);
+        this.solucion = new Solucion(estado);
         return solucion;
     }
 
@@ -62,7 +61,7 @@ public class AsignacionTareasGreedy {
         Iterator<String> itProcesadores = estado.iterarProcesadores();
         while(itProcesadores.hasNext()){
             String idProcesador = itProcesadores.next();
-            metrica++; //La metrica se incrementa evaluando todos los procesadores y no lo saltos que hace de nivel
+            estado.incrementarMetrica(); //La metrica se incrementa evaluando todos los procesadores y no lo saltos que hace de nivel
             Procesador procesadorActual = procesadores.get(idProcesador);
             if (procesadorPuedeRealizarTarea(estado, idProcesador, tarea)){
                 if (mejorProcesador == null || procesadorActual.getTiempoEjecucion() < mejorProcesador.getTiempoEjecucion()){

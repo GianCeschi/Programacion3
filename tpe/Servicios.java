@@ -8,7 +8,7 @@ import java.util.Iterator;
 import tpe.utils.AsignacionTareasBackTracking;
 import tpe.utils.AsignacionTareasGreedy;
 import tpe.utils.CSVReader;
-import tpe.utils.Estado;
+import tpe.utils.Solucion;
 
 /**
  * NO modificar la interfaz de esta clase ni sus métodos públicos.
@@ -79,7 +79,7 @@ public class Servicios {
 		}
 		else {
 			AsignacionTareasBackTracking backTracking = new AsignacionTareasBackTracking(procesadores, tareas, tiempoMaxEjecucion, LIMITE);
-			Estado solucion = backTracking.backtracking();	
+			Solucion solucion = backTracking.backtracking();	
 			if(solucion == null)	//si viene null, hay alguna tarea que no se pudo asignar a ningún procesador (por ejemplo, todos procesadores no refrigerados y tarea con tiempoEj > tiempo dado por el usuario)
 				System.out.println("No se puede asignar las tareas a los procesadores");
 			else
@@ -93,7 +93,7 @@ public class Servicios {
 		}
 		else {
 			AsignacionTareasGreedy greedy = new AsignacionTareasGreedy(procesadores, tareas, tiempoMaxEjecucion, LIMITE);
-			Estado solucion = greedy.greedy();
+			Solucion solucion = greedy.greedy();
 			if(solucion == null)  //si viene null, hay alguna tarea que no se pudo asignar a ningún procesador (por ejemplo, todos procesadores no refrigerados y tarea con tiempoEj > tiempo dado por el usuario)
 				System.out.println("No se puede asignar las tareas a los procesadores");
 			else

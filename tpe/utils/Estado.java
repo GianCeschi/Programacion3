@@ -33,8 +33,12 @@ public class Estado {
     public Integer getMetricaGenerada() {
 		return metricaGenerada;
 	}
-	public void setMetricaGenerada(Integer metricaGenerada) {
-		this.metricaGenerada = metricaGenerada;
+	public void incrementarMetrica() {
+		if(this.metricaGenerada == null) {
+			this.metricaGenerada = 1;
+		}else {
+		this.metricaGenerada++;
+		}
 	}
 	
     public Integer getTiempoFinalEjecucion() {
@@ -81,21 +85,4 @@ public class Estado {
     	return p.getTiempoEjecucion();
     }
     
-    public String toString() {
-    	String res =  "Estado: \nTiempo final ejecución: " + tiempoFinalEjecucion + "\nMetrica: " + metricaGenerada + 
-    				  "\nDetalle tareas asignadas: \n";
-    	Iterator<String> itProcesadores = iterarProcesadores();
-    	while(itProcesadores.hasNext()) {
-    		String idProcesador = itProcesadores.next();
-    		Procesador p = procesadores.get(idProcesador);
-    		res += "Procesador " + p.getId() + "[" ;
-    		Iterator<Tarea> itTareas = p.iterarTareas();
-    		while(itTareas.hasNext()) {
-    			Tarea t = itTareas.next();
-    			res += t.getNombre() + ", ";
-    		}
-    		res += "]\n";
-    	}	
-    	 return res;
-    }
 }

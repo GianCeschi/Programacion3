@@ -8,10 +8,9 @@ import tpe.Tarea;
 
 public class AsignacionTareasBackTracking {
     private Integer tiempoX;
-    private Estado mejorSolucion;
+    private Solucion mejorSolucion;
     private LinkedList<Tarea> tareasDisponibles;
     private HashMap<String, Procesador> procesadores;
-    private Integer metrica;
     private int limite;
     
 
@@ -20,7 +19,6 @@ public class AsignacionTareasBackTracking {
         this.tiempoX = tiempoMaxEjecucion;
         this.mejorSolucion = null;
         this.procesadores = procesadores;
-        this.metrica = 0;
         this.limite = limite;
     }
     
@@ -44,20 +42,19 @@ public class AsignacionTareasBackTracking {
      *En caso de no haber una solución se retorna null.
      * */
     
-    public Estado backtracking() {
+    public Solucion backtracking() {
         Estado estadoInicial = new Estado(procesadores);
         backtracking(estadoInicial, tareasDisponibles);
         if (mejorSolucion == null) {
             return null;
         }
-        mejorSolucion.setMetricaGenerada(metrica);
         return mejorSolucion; 
     }
 
     private void backtracking(Estado estado, LinkedList<Tarea> tareasDisponibles) {
         if(tareasDisponibles.size()== 0){ //Es una posible solucion, ahora tengo que ir guardando la mejor solucion
         	if(this.mejorSolucion == null || estado.getTiempoFinalEjecucion()< this.mejorSolucion.getTiempoFinalEjecucion()) {
-        		this.mejorSolucion = new Estado(estado);
+        		this.mejorSolucion = new Solucion(estado);
         	}
         }
         else{
@@ -72,7 +69,7 @@ public class AsignacionTareasBackTracking {
                 (this.mejorSolucion == null || (estado.getTiempoFinalEjecucion()< this.mejorSolucion.getTiempoFinalEjecucion())) && 
                 ((!estado.esRefrigerado(procesador) && estado.getTiempoProcesador(procesador)<= tiempoX) || estado.esRefrigerado(procesador))) {
 					backtracking(estado, tareasDisponibles); 
-					this.metrica++;
+					estado.incrementarMetrica();
 				}
 				devolverTarea(t);
 				estado.desasignarTarea(procesador,tiempoFinalAnterior);
