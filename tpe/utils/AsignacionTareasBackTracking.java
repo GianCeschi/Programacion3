@@ -66,7 +66,7 @@ public class AsignacionTareasBackTracking {
             	Integer tiempoFinalAnterior = estado.getTiempoFinalEjecucion(); 
 				estado.asignarTarea(procesador,t); //Se actualiza el estado
 				//Se aplican restricciones y se analiza una posible poda
-				if(!estado.superaCantidadCriticas(procesador,limite) && 
+				if((estado.cantidadCriticas(procesador)<=limite) && 
                 (this.mejorSolucion == null || (estado.getTiempoFinalEjecucion()< this.mejorSolucion.getTiempoFinalEjecucion())) && 
                 ((!estado.esRefrigerado(procesador) && estado.getTiempoProcesador(procesador)<= tiempoX) || estado.esRefrigerado(procesador))) {
 					estado.incrementarMetrica();

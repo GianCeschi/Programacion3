@@ -70,9 +70,9 @@ public class Estado {
         this.tiempoFinalEjecucion = tiempoFinalAnterior ;
     }
 
-    public boolean superaCantidadCriticas(String procesador,int limite) { 
+    public int cantidadCriticas(String procesador) { 
     	Procesador p = procesadores.get(procesador);
-    	return p.superaCantidadCriticas(limite);  
+    	return p.cantidadCriticas();  
     }
     
     public boolean esRefrigerado(String procesador) {

@@ -74,8 +74,9 @@ public class AsignacionTareasGreedy {
     }
 
     private boolean procesadorPuedeRealizarTarea(Estado estado, String idProcesador, Tarea tarea){
-        return !estado.superaCantidadCriticas(idProcesador,limite) && 
+    	int cant = estado.cantidadCriticas(idProcesador);
+        return (cant<limite || (!tarea.isCritica() && cant == limite)) && 
                     (estado.esRefrigerado(idProcesador) || 
-                    (!estado.esRefrigerado(idProcesador) && estado.getTiempoProcesador(idProcesador) <= tiempoX ));
+                    (!estado.esRefrigerado(idProcesador) && estado.getTiempoProcesador(idProcesador) + tarea.getTiempo()<= tiempoX ));
     }
 }

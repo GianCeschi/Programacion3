@@ -21,7 +21,6 @@ public class Procesador {
         this.tareasAsignadas = new LinkedList<Tarea>();
     }
 
-    
     public Procesador(Procesador procesador) {
         this.id = procesador.id;
         this.codigo = procesador.codigo;
@@ -70,18 +69,15 @@ public class Procesador {
         this.anio = anio;
     }
    
-    public boolean superaCantidadCriticas(int cantidadCriticas) {
+    public int cantidadCriticas() {
     	int cant = 0;
     	for(int i = 0; i<tareasAsignadas.size();i++) {
     		Tarea t = tareasAsignadas.get(i);
     		if(t.isCritica()) {
-    			cant++;
-    			if(cant>cantidadCriticas) {
-    				return true;
-    			}
+    			cant++;	
     		}
     	}
-    	return false;
+    	return cant;
     }
 
     public void asignarTarea(Tarea tarea){
